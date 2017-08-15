@@ -102,6 +102,8 @@ FlycartConfigClass.prototype = {
 				
 			}				 			
 		}
+
+		i
 		
 		this.prepareCartItem(undefined);
 		this.prepareProductPage();
@@ -416,14 +418,19 @@ FlycartConfigClass.prototype = {
 				qty = 1;
 			}
 			
-			if (qty < this.associated_products[product_id].min_qty){
-				alert('The minimum quantity allowed for purchase is ' + this.associated_products[product_id].min_qty + '.');
-				return;
-			}		
-			if (qty > this.associated_products[product_id].max_qty){
-				alert('The maximum quantity allowed for purchase is ' + this.associated_products[product_id].max_qty + '.');
-				return;
+			if (typeof(this.associated_products[product_id]) != 'undefined')
+			{
+				if (qty < this.associated_products[product_id].min_qty){
+					alert('The minimum quantity allowed for purchase is ' + this.associated_products[product_id].min_qty + '.');
+					return;
+				}		
+				if (qty > this.associated_products[product_id].max_qty){
+					alert('The maximum quantity allowed for purchase is ' + this.associated_products[product_id].max_qty + '.');
+					return;
+				}
 			}
+
+
 		}else if (this.associated_products[product_id].is_grouped == '1' && $('super-product-table')){
 			var elements = $('super-product-table').getElementsByClassName('qty');
 			if (elements.length > 0){
@@ -440,12 +447,31 @@ FlycartConfigClass.prototype = {
 				}
 			}
 		}
-		if ($('customer-reviews') &&
-			 (this.associated_products[product_id].is_grouped == '0') && (this.associated_products[product_id].is_simple == '0')){
+
+		if (typeof(this.associated_products[product_id]) != 'undefined')
+		{
+			if ($('customer-reviews') &&
+				(this.associated_products[product_id].is_grouped == '0') && (this.associated_products[product_id].is_simple == '0')){
+
+				this.showConfigurableParams(this.associated_products[product_id].product_url, product_id);
+			}else{
 			
-			this.showConfigurableParams(this.associated_products[product_id].product_url, product_id);
-		}else{
-			
+				if (this.config.effect == '2') { 
+					this.slide_control = $('image');
+					this.effectSlideToCart(this.slide_control);
+					this.slide_control = '';
+				} else if (this.config.effect == '1'){
+					this.loadData();
+				}
+
+				$('product_addtocart_form').request({
+					onSuccess: this.onSuccesAddtoCart.bind(this), 		                	
+					onFailure: this.onFailureAddtoCart.bind(this)
+				});
+			}
+		}
+		else
+		{
 			if (this.config.effect == '2') { 
 				this.slide_control = $('image');
 				this.effectSlideToCart(this.slide_control);
@@ -453,12 +479,13 @@ FlycartConfigClass.prototype = {
 			} else if (this.config.effect == '1'){
 				this.loadData();
 			}
-					
+
 			$('product_addtocart_form').request({
 				onSuccess: this.onSuccesAddtoCart.bind(this), 		                	
-	            onFailure: this.onFailureAddtoCart.bind(this)
-		    });
+				onFailure: this.onFailureAddtoCart.bind(this)
+			});
 		}
+
 	},
 	
 	prepareProductPage: function(){	
@@ -730,7 +757,7 @@ FlycartConfigClass.prototype = {
 				this.showConfigurableParams(response.url, response.product_id);
 				return;
 			}
-			if (response.product_id){
+			if (response.product_id && typeof(this.associated_products[response.product_id]) != 'undefined'){
 				this.associated_products[response.product_id].max_qty = this.associated_products[response.product_id].max_qty*1 - response.qty*1;
 				if (this.associated_products[response.product_id].max_qty*1 < this.associated_products[response.product_id].min_qty*1){
 					this.associated_products[response.product_id].min_qty = this.associated_products[response.product_id].max_qty; 
@@ -1487,20 +1514,21 @@ FlycartConfigClass.prototype = {
 		if (productAddToCartForm.validator.validate()){
 			
 			var product_id = $$('input[name="product"]').first().value;
-			if($('qty')){
-				var qty = $('qty').value*1 + 1;
-				if (qty > this.associated_products[product_id].max_qty){
-					alert('The maximum quantity allowed for purchase is ' + this.associated_products[product_id].max_qty + '.');
-					return;
-				}
-			}else if($('grouped_product_' + pid)){
-				var qty = $('grouped_product_' + pid).value*1 + 1;
-				if (qty > this.associated_products[pid].max_qty){
-					alert('The maximum quantity allowed for purchase is ' + this.associated_products[pid].max_qty + '.');
-					return;
-				}
-				product_id = pid;
-			}
+			var qty = $('qty').value*1 + 1;
+			// if($('qty')){
+			// 	var qty = $('qty').value*1 + 1;
+			// 	if (qty > this.associated_products[product_id].max_qty){
+			// 		alert('The maximum quantity allowed for purchase is ' + this.associated_products[product_id].max_qty + '.');
+			// 		return;
+			// 	}
+			// }else if($('grouped_product_' + pid)){
+			// 	var qty = $('grouped_product_' + pid).value*1 + 1;
+			// 	if (qty > this.associated_products[pid].max_qty){
+			// 		alert('The maximum quantity allowed for purchase is ' + this.associated_products[pid].max_qty + '.');
+			// 		return;
+			// 	}
+			// 	product_id = pid;
+			// }
 			
 			this.loadData();
 			var params = {product_id: product_id,
@@ -1521,20 +1549,21 @@ FlycartConfigClass.prototype = {
 		if (productAddToCartForm.validator.validate()){
 			
 			var product_id = $$('input[name="product"]').first().value;
-			if($('qty')){
-				var qty = $('qty').value*1 - 1;			
-				if (qty < this.associated_products[product_id].min_qty){
-					alert('The minimum quantity allowed for purchase is ' + this.associated_products[product_id].min_qty + '.');
-					return;
-				}
-			}else if($('grouped_product_' + prod_id)){
-				var qty = $('grouped_product_' + prod_id).value*1 - 1;			
-				if (qty < this.associated_products[prod_id].min_qty){
-					alert('The minimum quantity allowed for purchase is ' + this.associated_products[prod_id].min_qty + '.');
-					return;
-				}
-				product_id = prod_id;
-			}	
+			var qty = $('qty').value*1 - 1;	
+			// if($('qty')){
+			// 	var qty = $('qty').value*1 - 1;			
+			// 	if (qty < this.associated_products[product_id].min_qty){
+			// 		alert('The minimum quantity allowed for purchase is ' + this.associated_products[product_id].min_qty + '.');
+			// 		return;
+			// 	}
+			// }else if($('grouped_product_' + prod_id)){
+			// 	var qty = $('grouped_product_' + prod_id).value*1 - 1;			
+			// 	if (qty < this.associated_products[prod_id].min_qty){
+			// 		alert('The minimum quantity allowed for purchase is ' + this.associated_products[prod_id].min_qty + '.');
+			// 		return;
+			// 	}
+			// 	product_id = prod_id;
+			// }	
 			
 			this.loadData();
 			var params = {product_id: product_id,
