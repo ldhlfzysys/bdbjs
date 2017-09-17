@@ -158,6 +158,7 @@ FlycartConfigClass.prototype = {
 			var elements = $('vt_menu').getElementsByClassName('block-content');
 			elements[0].style.opacity = 1;
 			elements[0].style.visibility = 'visible';
+			elements[0].style.marginTop = 0;
 			elements[0].style.transition = 'all 0.3s ease-out 0s';
 
 
@@ -180,7 +181,8 @@ FlycartConfigClass.prototype = {
 			elements[0].style.top = '44px';
 			elements[0].style.margin = '0';
 			elements[0].style.right = '0';
-
+			elements[0].style.marginTop = '30px';
+			
 			// elements[0].css('float','left');
 			// elements[0].css('width','300px');
 			// elements[0].css('position','absolute');
