@@ -152,6 +152,55 @@ FlycartConfigClass.prototype = {
 			}				 			
 		}
 
+		var elements = $('vt_menu').getElementsByClassName('box-menu-03');
+		var element = elements[0];
+		element.onmouseover=function(){
+			var elements = $('vt_menu').getElementsByClassName('block-content');
+			elements[0].style.opacity = 1;
+			elements[0].style.visibility = 'visible';
+			elements[0].style.transition = 'all 0.3s ease-out 0s';
+
+
+			// elements[0].css('opacity','1');
+  	// 		elements[0].css('filter','alpha(opacity=100)');
+  	// 		elements[0].css('margin-top','0');
+  	// 		elements[0].css('visibility','visible');
+			// elements[0].css('-webkit-transition','all 0.3s ease-out 0s');
+			// elements[0].css('-moz-transition','all 0.3s ease-out 0s');
+			// elements[0].css('-o-transition','all 0.3s ease-out 0s');
+			// elements[0].css('transition','all 0.3s ease-out 0s');
+		};
+		element.onmouseout=function(){
+			var elements = $('vt_menu').getElementsByClassName('block-content');
+			elements[0].style.opacity = 0;
+			elements[0].style.visibility = 'hidden';
+			elements[0].style.transition = 'all 0.3s ease-out 0s';
+			elements[0].style.float = 'left';
+			elements[0].style.width = '300px';
+			elements[0].style.top = '44px';
+			elements[0].style.margin = '0';
+			elements[0].style.right = '0';
+
+			// elements[0].css('float','left');
+			// elements[0].css('width','300px');
+			// elements[0].css('position','absolute');
+			// elements[0].css('top','44px');
+			// elements[0].css('margin','0');
+			// elements[0].css('right','0');
+			// elements[0].css('z-index','99999');
+			// elements[0].css('-webkit-box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+			// elements[0].css('-moz-box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+			// elements[0].css('box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+			// elements[0].css('opacity','0');
+			// elements[0].css('filter','alpha(opacity=0)');
+			// elements[0].css('margin-top','30px');
+			// elements[0].css('visibility','hidden');
+			// elements[0].css('-webkit-transition','all 0.3s ease-out 0s');
+			// elements[0].css('-moz-transition','all 0.3s ease-out 0s');
+			// elements[0].css('-o-transition','all 0.3s ease-out 0s');
+			// elements[0].css('transition','all 0.3s ease-out 0s');
+		};
+
 		i
 		
 		this.prepareCartItem(undefined);
@@ -209,6 +258,43 @@ FlycartConfigClass.prototype = {
 		
 		this.addAdditionProduct();
 								
+	},
+
+	showCartDetail : function()
+	{
+		var elements = $('vt_menu').getElementsByClassName('block-content');
+		elements[0].css('opacity','1');
+  		elements[0].css('filter','alpha(opacity=100)');
+  		elements[0].css('margin-top','0');
+  		elements[0].css('visibility','visible');
+		elements[0].css('-webkit-transition','all 0.3s ease-out 0s');
+		elements[0].css('-moz-transition','all 0.3s ease-out 0s');
+		elements[0].css('-o-transition','all 0.3s ease-out 0s');
+		elements[0].css('transition','all 0.3s ease-out 0s');
+	},
+
+
+	hideCartDetail : function()
+	{
+		var elements = $('vt_menu').getElementsByClassName('block-content');
+		elements[0].css('float','left');
+		elements[0].css('width','300px');
+		elements[0].css('position','absolute');
+		elements[0].css('top','44px');
+		elements[0].css('margin','0');
+		elements[0].css('right','0');
+		elements[0].css('z-index','99999');
+		elements[0].css('-webkit-box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+		elements[0].css('-moz-box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+		elements[0].css('box-shadow','0 5px 5px rgba(0, 0, 0, 0.2)');
+		elements[0].css('opacity','0');
+		elements[0].css('filter','alpha(opacity=0)');
+		elements[0].css('margin-top','30px');
+		elements[0].css('visibility','hidden');
+		elements[0].css('-webkit-transition','all 0.3s ease-out 0s');
+		elements[0].css('-moz-transition','all 0.3s ease-out 0s');
+		elements[0].css('-o-transition','all 0.3s ease-out 0s');
+		elements[0].css('transition','all 0.3s ease-out 0s');
 	},
 	
 	addAdditionProduct: function(){
@@ -854,6 +940,11 @@ FlycartConfigClass.prototype = {
 				customCart[0].scrollTo();
 			}
 		}
+
+		var elements = $('vt_menu').getElementsByClassName('block-content');
+			elements[0].style.opacity = 1;
+			elements[0].style.visibility = 'visible';
+			elements[0].style.transition = 'all 0.3s ease-out 0s';
 	},
 	updateSidebar: function(block_class, content_html){
 		
