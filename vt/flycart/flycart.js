@@ -53,7 +53,7 @@ FlycartConfigClass.prototype = {
 		this.product_qty = productQtyTemp;
 		
 		if($$('div.category-products').length > 0){
-			if (typeof(flycart_associated_products) != 'undefined'){
+			if (typeof(flycart_associated_products) != 'undefined' && flycart_associated_products != null){
 				this.associated_products = flycart_associated_products;
 			}
 			
